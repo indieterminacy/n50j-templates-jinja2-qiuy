@@ -1,0 +1,91 @@
+\documentclass{\VAR{tq60kdocumentclass}}
+\usepackage{\VAR{tqpgfplottingtool}}
+% \usepgfplotslibrary{\VAR{tq20flibrarypgfplots}}
+\pgfplotsset{width=\VAR{tq40gsetimagesizespgfplot},compat=newest}
+\usepgfplotslibrary{\VAR{tq20flibrarypgfplots}}
+\usetikzlibrary{\VAR{tq20flibrarytikz}}
+\usepgfplotslibrary{\VAR{tq20flibrarypgfplots}}
+
+\pgfplotsset{
+    every first x axis line/.style={},
+    every first y axis line/.style={},
+    every first z axis line/.style={},
+    every second x axis line/.style={},
+    every second y axis line/.style={},
+    every second z axis line/.style={},
+    first x axis line style/.style={/pgfplots/every first x axis line/.append style={#1}},
+    first y axis line style/.style={/pgfplots/every first y axis line/.append style={#1}},
+    first z axis line style/.style={/pgfplots/every first z axis line/.append style={#1}},
+    second x axis line style/.style={/pgfplots/every second x axis line/.append style={#1}},
+    second y axis line style/.style={/pgfplots/every second y axis line/.append style={#1}},
+    second z axis line style/.style={/pgfplots/every second z axis line/.append style={#1}}
+}
+\makeatletter
+\def\pgfplots@drawaxis@outerlines@separate@onorientedsurf#1#2{%
+    \if2\csname pgfplots@#1axislinesnum\endcsname
+        % centered axis lines handled elsewhere.
+    \else
+    \scope[/pgfplots/every outer #1 axis line,
+        #1discont,decoration={pre length=\csname #1disstart\endcsname, post length=\csname #1disend\endcsname}]
+        \pgfplots@ifaxisline@B@onorientedsurf@should@be@drawn{0}{%
+            \draw [/pgfplots/every first #1 axis line] decorate {
+                \pgfextra
+                % exchange roles of A <-> B axes:
+                \pgfplotspointonorientedsurfaceabsetupfor{#2}{#1}{\pgfplotspointonorientedsurfaceN}%
+                \pgfplots@drawgridlines@onorientedsurf@fromto{\csname pgfplots@#2min\endcsname}%
+                \endpgfextra
+                };
+        }{}%
+        \pgfplots@ifaxisline@B@onorientedsurf@should@be@drawn{1}{%
+            \draw [/pgfplots/every second #1 axis line] decorate {
+                \pgfextra
+                % exchange roles of A <-> B axes:
+                \pgfplotspointonorientedsurfaceabsetupfor{#2}{#1}{\pgfplotspointonorientedsurfaceN}%
+                \pgfplots@drawgridlines@onorientedsurf@fromto{\csname pgfplots@#2max\endcsname}%
+                \endpgfextra
+                };
+        }{}%
+    \endscope
+    \fi
+}%
+\makeatother
+\begin{document}
+\pgfplotstableread
+{\VAR{tq20tdatafile}}
+    {\\VAR{tq50nfacets}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Interest Groups
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}
+    \pgfplotsset{%
+        \VAR{tq50iargumentset60opgfplot},%
+    }
+\begin{axis}[
+    \VAR{tq30gaxis60opgfplot},%
+    ]
+    \addplot[%
+        \VAR{tq50iargumentsetlocalpgfplot},%
+    ] table[%
+        \VAR{tq5iargumentsettablepgfplot},%
+    ] from {\\VAR{tq50n-facets}};
+    \addplot[%
+        \VAR{tq50iargumentsetlocalpgfplot},%
+    ] {0.5};
+    \addplot[%
+        \VAR{tq50iargumentsetlocalpgfplot},%
+    ] fill between[%
+        of=A and B,soft clip={domain=1:11}%
+    ];
+\end{axis}
+\begin{axis}[
+    \VAR{tq30gaxis60opgfplot},%
+    ]
+        \addplot [
+        \VAR{tq50iargumentsetlocalpgfplot},%
+        ] table[%
+        \VAR{tq5iargumentsettablepgfplot},%
+        ]
+    ] from {\\VAR{tq50n-facets}};
+\end{axis}
+\end{tikzpicture}
+\end{document}
