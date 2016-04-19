@@ -24,13 +24,14 @@ Feature: Insert strings into template environments
 \usetikzlibrary{\VAR{tq20flibrarytikz}}
 
 
-    Scenario: Generate document settings environment
-    Scenario: Generate macro constructor environment
     Scenario: Generate makeat{letter,other} environment
-    Scenario: Generate document environment
-    Scenario: Generate Tikz environment
     Scenario: Generate scope environment
     Scenario: Generate axis environment
+    Scenario: Generate macro constructor environment
+    Scenario: Generate Latex document environment
+    Scenario: Generate Tikz environment
+    Scenario: Generate PGFPlots environment
+    Scenario: Generate document settings environment
 
     Scenario: Create PGFPlots settings
 
